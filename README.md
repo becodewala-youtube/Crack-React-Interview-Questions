@@ -74,3 +74,90 @@ class Welcome extends React.Component {
 
  ```
 
+## 11) What is the purpose of render() in React?
+- In class components, the render() method is required. It returns the JSX that defines how the UI should look. Every time a component’s state or props change, the render() method is called to update the UI.
+
+```bash
+class Welcome extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+
+```
+## 12) What is the significance of the key prop in React?
+- key is used in lists of components to uniquely identify each item. This helps React efficiently update and reorder elements in the list when the data changes.
+```bash
+const items = ['Apple', 'Banana', 'Cherry'];
+const itemList = items.map((item, index) => <li key={index}>{item}</li>);
+
+```
+
+## 13) Why are keys important in lists?
+- Keys help React identify which elements have changed, been added, or been removed. Without keys, React would re-render the entire list, leading to poor performance. Keys provide stability to the list and help avoid unnecessary DOM operations.
+## 14)What is a functional component in React?
+- A functional component is a JavaScript function that takes props as an argument and returns a React element (JSX). Functional components are simple and stateless by nature, but with React hooks, they can now manage state and lifecycle events.
+
+```bash
+function Greeting(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+
+```
+
+## 15) What is a class component in React?
+- A class component is a more traditional way to define a React component using ES6 classes. Class components can hold state and have access to lifecycle methods, making them more feature-rich than functional components (before React Hooks were introduced).
+
+```bash
+class Greeting extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+
+```
+
+## 16)What are props in React?
+- Props (short for properties) are inputs passed from a parent component to a child component. Props are read-only and cannot be modified by the child component. They allow components to be dynamic and reusable.
+```bash
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+```
+## 17) How are props used in React?
+- Props are passed to a component as attributes in JSX. The component receives them as an argument and can render dynamic content based on them.
+```bash
+<Welcome name="John" />
+```
+## 18)What is state in React?
+- State is an internal object in a class component or a functional component (with hooks) that holds data that can change over time. Unlike props, state is mutable and is typically used for data that changes in response to user actions or other events.
+```bash
+class Counter extends React.Component {
+  state = { count: 0 };
+
+  increment = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  render() {
+    return (
+      <div>
+        <p>{this.state.count}</p>
+        <button onClick={this.increment}>Increment</button>
+      </div>
+    );
+  }
+}
+```
+## 19)How is state different from props in React?
+- Props: Passed from parent to child and cannot be changed by the child component (read-only).
+- State: Managed within the component and can be updated using setState().
+
+## 20)How do you update the state in a React component?
+- You can update the state using the setState() method. This method merges the new state with the existing state and triggers a re-render of the component.
+
+```bash
+this.setState({ count: this.state.count + 1 });
+ ```
+
+
