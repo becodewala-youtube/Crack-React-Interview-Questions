@@ -1,4 +1,4 @@
-# Crack-React-Interview-Questions
+# 🔥Crack-React-Interview-Questions
 
 ## 1)What is React.js?
 - React.js is an open-source JavaScript library created by Facebook for building modern, interactive user interfaces, primarily for single-page applications (SPAs). It allows developers to build web applications that can update and render efficiently based on data changes, without requiring a page reload.
@@ -160,4 +160,75 @@ class Counter extends React.Component {
 this.setState({ count: this.state.count + 1 });
  ```
 
+
+## 21) What is the use of setState() in React?
+- setState() is used to update the component’s state. When setState() is called, React schedules a re-render of the component with the new state. This ensures the UI is in sync with the state.
+```bash
+this.setState({ name: 'John' });
+
+```
+## 22) What is the lifecycle of a React component?
+- The lifecycle of a React component can be divided into three phases:
+
+- Mounting: When the component is first created and inserted into the DOM.
+- Updating: When the component's state or props change, and it needs to re-render.
+- Unmounting: When the component is removed from the DOM.
+
+## 23)What are React lifecycle methods?
+- Lifecycle methods are special methods that are called at different stages of a component’s lifecycle. They allow developers to hook into these stages and execute custom logic.
+
+### Common lifecycle methods:
+
+- componentDidMount(): Called after the component is inserted into the DOM.
+- componentDidUpdate(): Called after the component is re-rendered due to state or prop changes.
+- componentWillUnmount(): Called before the component is removed from the DOM.
+## 24)What is the use of componentDidMount()?
+- componentDidMount() is invoked immediately after a component is mounted (inserted into the DOM). It’s commonly used for making network requests or initializing third-party libraries.
+```bash
+componentDidMount() {
+  fetch('/api/data')
+    .then(response => response.json())
+    .then(data => this.setState({ data }));
+}
+```
+
+## 25) What is the use of componentWillUnmount()?
+- componentWillUnmount() is invoked immediately before a component is unmounted and destroyed. It's used for cleanup tasks like clearing timers or unsubscribing from event listeners.
+```bash
+componentWillUnmount() {
+  clearInterval(this.timer);
+}
+
+
+```
+
+## 26)What is the use of componentDidUpdate()?
+- componentDidUpdate() is called after a component has re-rendered due to changes in props or state. This is useful for responding to updates, such as making additional network requests when certain conditions are met.
+## 27) What is the use of shouldComponentUpdate()?
+- shouldComponentUpdate() allows you to control whether a component should re-render or not when state or props change. It’s often used to optimize performance by preventing unnecessary re-renders.
+```bash
+shouldComponentUpdate(nextProps, nextState) {
+  return nextProps.value !== this.props.value; // only re-render if the value changes
+}
+
+```
+## 28)What is the difference between componentWillMount() and componentDidMount()?
+- componentWillMount() is called before the component is rendered (but it’s deprecated).
+- componentDidMount() is called after the component has been rendered and inserted into the DOM, making it a safer place for code that relies on the DOM being available.
+## 29)What is the use of constructor() in a React class component?
+- The constructor() method is used to initialize the state and bind methods to the component instance in a class component. It's the first method called when a component is instantiated.
+```bash
+constructor(props) {
+  super(props); // Must call super() before accessing 'this'
+  this.state = { count: 0 };
+}
+```
+## 30)What is the purpose of super() in React?
+- super() is required in a constructor when extending a class. It calls the constructor of the parent class (React.Component), giving the child component access to this and props.
+```bash
+constructor(props) {
+  super(props); // Calls the parent class's constructor
+  this.state = { count: 0 };
+}
+```
 
