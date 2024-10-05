@@ -232,3 +232,244 @@ constructor(props) {
 }
 ```
 
+## 31) What are React Hooks?
+- React Hooks are functions that allow you to "hook into" React features, such as state and lifecycle methods, in functional components. Hooks were introduced in React 16.8 to make functional components more powerful, eliminating the need to write class components in many cases.
+
+- For example, the useState hook enables you to add local state to a functional component, while useEffect allows you to perform side effects like fetching data or subscribing to events.
+#### Example 
+```bash
+import { useState, useEffect } from 'react';
+
+function Timer() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCount(prevCount => prevCount + 1);
+    }, 1000);
+
+    // Cleanup the timer when component unmounts
+    return () => clearInterval(timer);
+  }, []);
+
+  return <h1>Timer: {count}</h1>;
+}
+```
+## 32) What is the useState hook in React?
+- useState is a hook that lets you add state to functional components. It returns two values: the current state and a function to update that state.
+
+- You can think of state as data that can change over time. useState helps you handle such data changes in a React component.
+#### Example 
+```bash
+import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Current count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increase Count</button>
+    </div>
+  );
+}
+```
+- Here, count is the state variable, and setCount is the function used to update it.
+## 33)What is the useEffect hook in React?
+- useEffect is a hook that lets you perform side effects in function components, such as fetching data, directly manipulating the DOM, or setting up subscriptions. It is similar to lifecycle methods in class components, such as componentDidMount, componentDidUpdate, and componentWillUnmount.
+#### Example
+```bash
+import { useEffect } from 'react';
+
+function DataFetcher() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch('https://api.example.com/data')
+      .then(response => response.json())
+      .then(result => setData(result));
+
+    // Optional cleanup function
+    return () => {
+      console.log('Cleanup when component unmounts');
+    };
+  }, []); // Empty array ensures this runs only once after the initial render
+
+  return <div>{data ? JSON.stringify(data) : 'Loading...'}</div>;
+}
+```
+- Here, useEffect fetches data after the component renders, and the empty dependency array ensures the effect runs only once.
+## 34) What is the useContext hook in React?
+- useContext is a hook that allows you to consume values from a React Context without the need for prop drilling (passing data through multiple layers of components).
+#### Example
+```bash
+const ThemeContext = React.createContext('light');
+
+function ThemedButton() {
+  const theme = useContext(ThemeContext);
+
+  return <button className={theme}>Button with {theme} theme</button>;
+}
+
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <ThemedButton />
+    </ThemeContext.Provider>
+  );
+}
+```
+- In this example, ThemedButton can access the theme directly from ThemeContext without needing to pass it as a prop from the parent.
+## 35) What is the useReducer hook in React?
+- useReducer is a hook that is used to handle more complex state logic in React components. It’s similar to useState but allows for more control by using reducers (functions that determine changes to state based on actions).
+#### Example
+```bash
+import { useReducer } from 'react';
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    default:
+      throw new Error();
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+  return (
+    <div>
+      <p>Count: {state.count}</p>
+      <button onClick={() => dispatch({ type: 'increment' })}>Increment</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>Decrement</button>
+    </div>
+  );
+}
+```
+- useReducer is a good alternative to useState when the state logic becomes complex, such as when multiple values depend on each other.
+
+## 36)What is the useRef hook in React?
+- useRef returns a mutable object whose .current property persists across re-renders. It’s commonly used to access DOM elements or store values that don’t need to trigger a re-render when updated.
+#### Example
+```bash
+import { useRef } from 'react';
+
+function TextInputWithFocusButton() {
+  const inputEl = useRef(null);
+
+  const onButtonClick = () => {
+    inputEl.current.focus();
+  };
+
+  return (
+    <div>
+      <input ref={inputEl} type="text" />
+      <button onClick={onButtonClick}>Focus the input</button>
+    </div>
+  );
+}
+```
+- Here, useRef is used to access the input DOM element and trigger the focus on button click without causing a re-render.
+
+
+## 37)  What is the useCallback hook in React?
+- useCallback is a hook that returns a memoized version of a callback function, which means it will only recreate the function if its dependencies change. This is useful for optimizing performance, particularly in scenarios involving expensive operations or when passing functions as props.
+#### Example
+```bash
+import { useState, useCallback } from 'react';
+
+function Button({ onClick }) {
+  console.log('Button rendered');
+  return <button onClick={onClick}>Click me</button>;
+}
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <Button onClick={handleClick} />
+    </div>
+  );
+}
+```
+- useCallback prevents the handleClick function from being recreated on every render unless count changes, thus avoiding unnecessary re-renders of the Button component.
+## 38)What is the useMemo hook in React?
+- useMemo is a hook that memoizes the result of a computation. It recomputes the memoized value only when one of its dependencies changes, which helps optimize performance by preventing expensive calculations on every render.
+#### Example
+```bash
+import { useMemo, useState } from 'react';
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  const expensiveCalculation = (num) => {
+    console.log('Expensive calculation');
+    return num * 2;
+  };
+
+  const result = useMemo(() => expensiveCalculation(count), [count]);
+
+  return (
+    <div>
+      <p>Result: {result}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+```
+- Here, useMemo memoizes the result of expensiveCalculation, preventing it from running on every render unless count changes.
+## 39)What are custom hooks in React?
+- Custom hooks are functions that encapsulate reusable logic built using React’s built-in hooks like useState, useEffect, and others. Custom hooks let you reuse logic across multiple components.
+#### Example
+```bash
+function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    const savedValue = localStorage.getItem(key);
+    return savedValue !== null ? JSON.parse(savedValue) : initialValue;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue];
+}
+
+function App() {
+  const [name, setName] = useLocalStorage('name', '');
+
+  return (
+    <div>
+      <input value={name} onChange={(e) => setName(e.target.value)} />
+    </div>
+  );
+}
+```
+- In this example, the useLocalStorage custom hook allows any component to easily manage state that syncs with localStorage.
+## 40)How do you create custom hooks in React?
+- Custom hooks are created by writing a function that uses other hooks (such as useState, useEffect, etc.) and begins with the prefix use.
+#### Example
+```bash
+function useDocumentTitle(title) {
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+}
+
+function App() {
+  useDocumentTitle('My App Title');
+  return <div>Check the document title!</div>;
+}
+```
+- This custom hook useDocumentTitle allows you to change the document title from any component without duplicating logic.
+
