@@ -473,3 +473,143 @@ function App() {
 ```
 - This custom hook useDocumentTitle allows you to change the document title from any component without duplicating logic.
 
+
+## 41)When should you use useEffect?
+- useEffect should be used when you want to perform side effects in your component. A side effect refers to anything that affects something outside the component, like fetching data from an API, updating the DOM (Document Object Model), or setting up a subscription.
+
+- It runs after the component renders.
+- It’s ideal for tasks that don’t affect the layout on the screen, like fetching data or subscribing to services.
+#### Example: Fetching data from an API when the component is mounted.
+```bash
+useEffect(() => {
+  fetch('https://api.example.com/data')
+    .then(response => response.json())
+    .then(data => console.log(data));
+}, []);  // The empty array means this will only run once after the component mounts.
+```
+## 42)What is the dependency array in useEffect?
+- The dependency array is the second argument passed to useEffect. It controls when the useEffect hook runs. If you want the effect to run every time certain variables change, you place those variables inside the dependency array.
+
+- Empty array []: Runs the effect only once, when the component mounts.
+- Variables in the array: Runs the effect when any of those variables change.
+#### Example
+```bash
+useEffect(() => {
+  console.log('This runs every time count changes');
+}, [count]);  // This effect runs only when `count` changes.
+```
+## 43) How do you handle side effects in React?
+- Side effects, such as updating the DOM, setting timers, fetching data, etc., are handled using useEffect in React.
+
+#### Example: If you want to update the document title based on a state change, you would use useEffect to handle that side effect.
+```bash
+const [count, setCount] = useState(0);
+
+useEffect(() => {
+  document.title = `You clicked ${count} times`;  // This side effect updates the document title.
+}, [count]);  // The effect will re-run when `count` changes.
+```
+## 44)What is the difference between useEffect and useLayoutEffect?
+#### The main difference between useEffect and useLayoutEffect is when they are executed:
+
+- useEffect: Runs after the DOM is painted. It’s asynchronous and non-blocking, so the browser doesn't wait for it to complete before rendering the page.
+- useLayoutEffect: Runs synchronously before the browser paints the screen. This means the browser will wait for useLayoutEffect to finish before displaying content.
+- Use useLayoutEffect when you need to measure the DOM and make changes that affect layout (like animations or reading element dimensions).
+
+#### Example:
+```bash
+useEffect(() => {
+  console.log('useEffect: Runs after the DOM is painted');
+});
+
+useLayoutEffect(() => {
+  console.log('useLayoutEffect: Runs before the DOM is painted');
+});
+```
+## 45)Can you use multiple hooks in a single component?
+- Yes, you can use multiple hooks in a single component. Hooks are just functions, so you can call as many as you need in your component.
+#### Example
+```bash
+function MyComponent() {
+  const [count, setCount] = useState(0);  // useState hook
+  const [name, setName] = useState('');   // useState hook
+
+  useEffect(() => {                       // useEffect hook
+    document.title = `You clicked ${count} times`;
+  }, [count]);
+
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <input value={name} onChange={(e) => setName(e.target.value)} />
+    </div>
+  );
+}
+```
+## 46)How do you handle state with hooks in functional components?
+- In functional components, the useState hook is used to manage state. It allows you to create state variables and update them.
+
+#### Example:
+```bash
+function Counter() {
+  const [count, setCount] = useState(0);  // useState creates a state variable `count`
+
+  function increment() {
+    setCount(count + 1);  // Update the state using `setCount`
+  }
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+```
+## 47)What is the cleanup function in useEffect?
+- The cleanup function in useEffect is used to clean up any side effects (like subscriptions, timers, or event listeners) when the component is unmounted or before the effect re-runs. The cleanup function is optional and returned from the useEffect function.
+## Example
+```bash
+useEffect(() => {
+  const interval = setInterval(() => {
+    console.log('This runs every second');
+  }, 1000);
+
+  // Cleanup function: clears the interval when the component unmounts
+  return () => clearInterval(interval);
+}, []);  // Runs only once when the component mounts
+```
+- In this example, the interval is cleared when the component is unmounted to prevent memory leaks.
+## 48)How do components communicate in React?
+- In React, components communicate by passing data between them. The primary way to do this is by using props to pass data from a parent component to a child component. For communication from child to parent, you can pass a function as a prop.
+## 49) How do you pass data from a parent to a child component in React?
+- Data is passed from a parent to a child component using props.
+
+## Example:
+```bash
+function Parent() {
+  const message = "Hello from Parent!";
+  return <Child data={message} />;
+}
+
+function Child({ data }) {
+  return <div>{data}</div>;
+}
+```
+- In this example, the Parent component passes the string "Hello from Parent!" to the Child component through the data prop.
+## 50)How do you pass data from a child to a parent component in React?
+- You pass data from a child to a parent by passing a function as a prop from the parent, and calling that function in the child with the data.
+
+## Example:
+```bash
+function Parent() {
+  const handleData = (childData) => {
+    console.log(childData);  // Logs "Data from Child"
+  };
+  return <Child sendData={handleData} />;
+}
+
+function Child({ sendData }) {
+  return <button onClick={() => sendData("Data from Child")}>Send Data</button>;
+}
+```
